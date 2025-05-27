@@ -3,6 +3,7 @@ from sqlalchemy import inspect, text
 from helper import get_engine, format_value
 from sqlalchemy.ext.asyncio import AsyncEngine
 from model import TableModel, ColumnModel, TablesModel, QueryResultModel
+from fastmcp.exceptions import ToolError
 import json
 import os
 from dotenv import load_dotenv
@@ -35,8 +36,7 @@ async def all_get_tables():
             return TablesModel(tables=table_names)
         
     except Exception as e:
-        print(f"Error retrieving table names: {e}") # Log the error
-        return {"error": f"Error retrieving table names: {e}"}
+        raise ToolError(f"Error retrieving tables: {e}")
 
 @mcp.tool(name="get_table_info", description="Retrieve information about a specific table")
 async def get_table_info(table_name: str):
@@ -67,7 +67,7 @@ async def get_table_info(table_name: str):
                 columns=column_models
             )
     except Exception as e:
-        raise Exception(f"Error retrieving table info for {table_name}: {e}")
+        raise ToolError(f"Error retrieving table information for '{table_name}': {e}")
     
 @mcp.tool(name="get_table_description", description="Retrieve the description of predefined in specific configuration file")
 async def get_table_description(table_name: str):
@@ -76,13 +76,16 @@ async def get_table_description(table_name: str):
     for table in tables:
         if table.get("name") == table_name:
             return table
-    return {"error": "Table not found."}
+    raise ToolError(f"Table '{table_name}' not found in the configuration file.")
 
 @mcp.tool(name="get_all_table_descriptions", description="Retrieve descriptions of all predefined tables in the configuration file")
 async def get_all_table_descriptions():
     config = await json.loads(open(os.getenv('CONFIG_PATH', './config.json')).read())
     tables = config.get("tables", [])
-    return {"tables": tables} if tables else {"error": "No tables found."}
+    if not tables:
+        raise ToolError("No tables found in the configuration file.")
+    tables = [table for table in tables if "name" in table and "description" in table]    
+    return {"tables": tables}
 
 @mcp.tool(name="execute_query", description="Execute a SQL query and return the results")
 async def execute_query(query: str):
@@ -96,7 +99,7 @@ async def execute_query(query: str):
     """
     engine: AsyncEngine = await get_engine()
     if not query.strip().lower().startswith("select"):
-        return {"error": "Only SELECT queries are allowed."}
+        raise ToolError("Only SELECT queries are allowed for this tool.")
 
     try:
         async with engine.connect() as conn:
@@ -111,5 +114,4 @@ async def execute_query(query: str):
                 rows=rows
             )
     except Exception as e:
-        print(f"Error executing query: {query}\nError: {e}") # Log the error
-        return {"error": f"Error executing query: {e}"}
+        raise ToolError(f"Error executing query: {e}")
