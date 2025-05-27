@@ -1,0 +1,46 @@
+{
+    "name": "database",
+    "description": "School database",
+    "tables": [
+        {
+            "name": "students",
+            "description": "Student data",
+            "columns": [
+                { 
+                    "name": "id",
+                    "description": "Student ID"
+                },
+                {
+                    "name": "name",
+                    "description": "Full name of the student"
+                },
+                {
+                    "name": "age",
+                    "description": "Age of the student"
+                },
+                {
+                    "name": "gmail",
+                    "description": "Current grade level"
+                },
+                {
+                    "dep_id": "department_id",
+                    "description": "ID of the department the student belongs to"
+                }
+            ]
+        },
+        {
+            "name": "departments",
+            "description": "Department data",
+            "columns": [
+                { 
+                    "name": "id",
+                    "description": "Department ID"
+                },
+                {
+                    "name": "name",
+                    "description": "Name of the department"
+                }
+            ]
+        }
+    ]
+}
