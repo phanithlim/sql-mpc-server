@@ -1,5 +1,5 @@
 # SQL MCP Server
-A FastAPI-based server for managing and querying SQL databases using MCP (Model Context Protocol). This simple template for MCP server for sql database.
+A FastAPI-based, read-only server for managing and querying SQL databases using the Model Context Protocol (MCP). This is a simple template for an MCP server designed to interact with SQL databases in a read-only mode.
 
 ## Installation
 Install UV package manager:
