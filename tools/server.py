@@ -1,4 +1,5 @@
 from fastmcp import FastMCP
+from fastmcp.settings import ServerSettings
 from sqlalchemy import inspect, text
 from helper import get_engine, format_value
 from sqlalchemy.ext.asyncio import AsyncEngine
@@ -8,15 +9,14 @@ import json
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  
-
+load_dotenv()
 
 mcp = FastMCP(
     name="Expert SQL",
     instructions='''
     You are an expert in SQL and database management. Your task is to assist users with SQL queries, database schema understanding, and data manipulation. You will provide accurate and efficient SQL code snippets based on user requests.
     You will also help users understand their database schema, including tables and columns.
-    '''
+    ''',
 )
 
 @mcp.tool(name="get_all_tables", description="Retrieve all tables in the database")
@@ -34,7 +34,6 @@ async def all_get_tables():
                 lambda sync_conn: inspect(sync_conn).get_table_names()
             )
             return TablesModel(tables=table_names)
-        
     except Exception as e:
         raise ToolError(f"Error retrieving tables: {e}")
 
@@ -48,8 +47,7 @@ async def get_table_info(table_name: str):
         TableModel: A model containing the table name and its columns.
         dict: An error dictionary if an exception occurs.
     """
-    engine: AsyncEngine = await get_engine() # Await the async get_engine()
-
+    engine: AsyncEngine = await get_engine() 
     try:
         async with engine.connect() as conn:
             columns = await conn.run_sync(
@@ -71,7 +69,7 @@ async def get_table_info(table_name: str):
     
 @mcp.tool(name="get_table_description", description="Retrieve the description of predefined in specific configuration file")
 async def get_table_description(table_name: str):
-    config = await json.loads(open(os.getenv('CONFIG_PATH', './config.json')).read())
+    config = json.loads(open(os.getenv('CONFIG_PATH', './config.json')).read())
     tables = config.get("tables", [])
     for table in tables:
         if table.get("name") == table_name:
@@ -80,7 +78,7 @@ async def get_table_description(table_name: str):
 
 @mcp.tool(name="get_all_table_descriptions", description="Retrieve descriptions of all predefined tables in the configuration file")
 async def get_all_table_descriptions():
-    config = await json.loads(open(os.getenv('CONFIG_PATH', './config.json')).read())
+    config = json.loads(open(os.getenv('CONFIG_PATH', './config.json')).read())
     tables = config.get("tables", [])
     if not tables:
         raise ToolError("No tables found in the configuration file.")
