@@ -1,7 +1,8 @@
-from fastapi.responses import HTMLResponse
-from starlette.middleware import Middleware
-from starlette.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.middleware import Middleware
+from fastapi.middleware.cors import CORSMiddleware
+
 from tools import mcp
 import uvicorn
 
@@ -9,13 +10,13 @@ import uvicorn
 app = FastAPI(docs_url=None, redoc_url=None)
 
 mcp_app = mcp.http_app(
-    path='/mcp',
+    path='/sse',
     transport='sse',
     middleware=[
         Middleware(CORSMiddleware, allow_origins=["*"]),
     ]
 )
-app.mount("/mcp-server", mcp_app)
+app.mount("/mcp", mcp_app)
 
 ## Routes
 @app.get("/", response_class=HTMLResponse)

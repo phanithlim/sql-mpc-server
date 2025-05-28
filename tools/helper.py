@@ -1,8 +1,5 @@
 import os
-import asyncio
-from sqlalchemy import text
 from dotenv import load_dotenv
-from urllib.parse import urlparse
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine
 from datetime import datetime, date
 

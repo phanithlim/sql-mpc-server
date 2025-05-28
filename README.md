@@ -58,4 +58,4 @@ Run the Docker container:
 ```bash
 docker run -d -p 8000:8000 mcp-server
 ```
-- MCP server url: `http://localhost:8000/mcp-server/mcp`
+- MCP server url: `http://localhost:8000/mcp/sse`

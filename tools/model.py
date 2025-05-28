@@ -6,7 +6,6 @@ class ColumnModel(BaseModel):
     name: str = Field(..., description="The name of the column")
     primary_key: bool = Field(False, description="Indicates if the column is a primary key")
     
-    
 class TableModel(BaseModel):
     name: str = Field(..., description="The name of the table")
     columns: List[ColumnModel] = Field(..., description="List of columns in the table")
