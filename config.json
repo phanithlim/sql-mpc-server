@@ -1,45 +1,24 @@
 {
     "name": "database",
-    "description": "School database",
+    "description": "A comprehensive school database used to manage student and department information.",
     "tables": [
         {
             "name": "students",
-            "description": "Student data",
+            "description": "This table stores comprehensive details about each student enrolled in the school. It includes identifiers, personal details, academic status, and departmental affiliations.",
             "columns": [
-                { 
-                    "name": "id",
-                    "description": "Student ID"
-                },
-                {
-                    "name": "name",
-                    "description": "Full name of the student"
-                },
-                {
-                    "name": "age",
-                    "description": "Age of the student"
-                },
-                {
-                    "name": "gmail",
-                    "description": "Current grade level"
-                },
-                {
-                    "dep_id": "department_id",
-                    "description": "ID of the department the student belongs to"
-                }
+                { "name": "id", "description": "Unique identifier for each student, typically an auto-incrementing integer." },
+                { "name": "name", "description": "Full legal name of the student as recorded in school records." },
+                { "name": "age", "description": "The student's age, recorded in whole years, used for demographic and eligibility purposes." },
+                { "name": "gmail", "description": "The student’s primary email address for official school communication." },
+                { "name": "dep_id", "description": "Foreign key linking to the 'departments' table. Identifies the academic department the student is enrolled in." }
             ]
         },
         {
             "name": "departments",
-            "description": "Department data",
+            "description": "This table maintains a list of all academic departments within the school. Each department represents a specific field of study or administrative division.",
             "columns": [
-                { 
-                    "name": "id",
-                    "description": "Department ID"
-                },
-                {
-                    "name": "name",
-                    "description": "Name of the department"
-                }
+                { "name": "id", "description": "Unique identifier for each department, typically an auto-incrementing integer." },
+                { "name": "name", "description": "The official name of the academic department, e.g., 'Mathematics', 'Physics', 'Literature'." }
             ]
         }
     ]
