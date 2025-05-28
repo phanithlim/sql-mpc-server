@@ -3,7 +3,7 @@ from sqlalchemy import inspect, text
 from sqlalchemy.ext.asyncio import AsyncEngine
 from fastmcp.exceptions import ToolError
 
-from helper import get_engine, format_value
+from .helper import get_engine, format_value
 from dotenv import load_dotenv
 
 import json
@@ -50,7 +50,7 @@ async def get_table_info(table_name: str):
             if columns:
                 col_headers = "| Column Name | Data Type | Primary Key |\n|---|---|---|"
                 col_rows = "\n".join(
-                    f"| {col['name']} | {col['type'].__class__.__name__} | {'Yes' if col.get('primary_key') else 'No'} |"
+                    f"| {col['name']} | {col['type'].__class__.__name__} | {'Yes' if col.get('identity') else 'No'} |"
                     for col in columns
                 )
                 return f"**Table `{table_name}` Information:**\n\n{col_headers}\n{col_rows}"
