@@ -7,6 +7,8 @@ WORKDIR /app
 # Install curl and ca-certificates for uv installer
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
 
+
+
 # Download the latest uv installer
 ADD https://astral.sh/uv/install.sh /uv-installer.sh
 
@@ -29,6 +31,6 @@ COPY . /app
 
 # Install all dependencies using uv sync
 # This creates the virtual environment and installs project dependencies
-RUN uv sync
+RUN uv sync --locked
 
 CMD ["uv", "run", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"]

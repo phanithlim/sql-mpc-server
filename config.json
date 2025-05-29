@@ -1,24 +1,135 @@
 {
-    "name": "database",
-    "description": "A comprehensive school database used to manage student and department information.",
+    "name": "Chinook",
+    "description": "A comprehensive database for managing a digital media store, including information on artists, albums, tracks, employees, customers, and sales.",
     "tables": [
         {
-            "name": "students",
-            "description": "This table stores comprehensive details about each student enrolled in the school. It includes identifiers, personal details, academic status, and departmental affiliations.",
+            "name": "Artist",
+            "description": "This table stores information about music artists.",
             "columns": [
-                { "name": "id", "description": "Unique identifier for each student, typically an auto-incrementing integer." },
-                { "name": "name", "description": "Full legal name of the student as recorded in school records." },
-                { "name": "age", "description": "The student's age, recorded in whole years, used for demographic and eligibility purposes." },
-                { "name": "gmail", "description": "The student’s primary email address for official school communication." },
-                { "name": "dep_id", "description": "Foreign key linking to the 'departments' table. Identifies the academic department the student is enrolled in." }
+                { "name": "ArtistId", "description": "Primary key, unique identifier for each artist." },
+                { "name": "Name", "description": "The name of the artist." }
             ]
         },
         {
-            "name": "departments",
-            "description": "This table maintains a list of all academic departments within the school. Each department represents a specific field of study or administrative division.",
+            "name": "Album",
+            "description": "This table contains details about music albums.",
             "columns": [
-                { "name": "id", "description": "Unique identifier for each department, typically an auto-incrementing integer." },
-                { "name": "name", "description": "The official name of the academic department, e.g., 'Mathematics', 'Physics', 'Literature'." }
+                { "name": "AlbumId", "description": "Primary key, unique identifier for each album." },
+                { "name": "Title", "description": "The title of the album." },
+                { "name": "ArtistId", "description": "Foreign key, links to the Artist table, indicating the artist of the album." }
+            ]
+        },
+        {
+            "name": "MediaType",
+            "description": "This table lists the types of media available (e.g., MPEG audio file, Protected AAC audio file).",
+            "columns": [
+                { "name": "MediaTypeId", "description": "Primary key, unique identifier for each media type." },
+                { "name": "Name", "description": "The name of the media type." }
+            ]
+        },
+        {
+            "name": "Genre",
+            "description": "This table stores information about music genres.",
+            "columns": [
+                { "name": "GenreId", "description": "Primary key, unique identifier for each genre." },
+                { "name": "Name", "description": "The name of the genre." }
+            ]
+        },
+        {
+            "name": "Track",
+            "description": "This table contains details about individual music tracks.",
+            "columns": [
+                { "name": "TrackId", "description": "Primary key, unique identifier for each track." },
+                { "name": "Name", "description": "The title of the track." },
+                { "name": "AlbumId", "description": "Foreign key, links to the Album table." },
+                { "name": "MediaTypeId", "description": "Foreign key, links to the MediaType table." },
+                { "name": "GenreId", "description": "Foreign key, links to the Genre table." },
+                { "name": "Composer", "description": "The composer of the track." },
+                { "name": "Milliseconds", "description": "The length of the track in milliseconds." },
+                { "name": "Bytes", "description": "The size of the track in bytes." },
+                { "name": "UnitPrice", "description": "The price of a single unit of the track." }
+            ]
+        },
+        {
+            "name": "Employee",
+            "description": "This table stores information about the employees of the digital media store.",
+            "columns": [
+                { "name": "EmployeeId", "description": "Primary key, unique identifier for each employee." },
+                { "name": "LastName", "description": "The last name of the employee." },
+                { "name": "FirstName", "description": "The first name of the employee." },
+                { "name": "Title", "description": "The job title of the employee." },
+                { "name": "ReportsTo", "description": "Foreign key, links to the Employee table itself, indicating who the employee reports to (manager)." },
+                { "name": "BirthDate", "description": "The birth date of the employee." },
+                { "name": "HireDate", "description": "The date the employee was hired." },
+                { "name": "Address", "description": "The employee's address." },
+                { "name": "City", "description": "The city where the employee lives." },
+                { "name": "State", "description": "The state where the employee lives." },
+                { "name": "Country", "description": "The country where the employee lives." },
+                { "name": "PostalCode", "description": "The postal code of the employee's address." },
+                { "name": "Phone", "description": "The employee's phone number." },
+                { "name": "Fax", "description": "The employee's fax number." },
+                { "name": "Email", "description": "The employee's email address." }
+            ]
+        },
+        {
+            "name": "Customer",
+            "description": "This table holds information about the customers of the digital media store.",
+            "columns": [
+                { "name": "CustomerId", "description": "Primary key, unique identifier for each customer." },
+                { "name": "FirstName", "description": "The first name of the customer." },
+                { "name": "LastName", "description": "The last name of the customer." },
+                { "name": "Company", "description": "The company the customer works for, if any." },
+                { "name": "Address", "description": "The customer's address." },
+                { "name": "City", "description": "The city where the customer lives." },
+                { "name": "State", "description": "The state where the customer lives." },
+                { "name": "Country", "description": "The country where the customer lives." },
+                { "name": "PostalCode", "description": "The postal code of the customer's address." },
+                { "name": "Phone", "description": "The customer's phone number." },
+                { "name": "Fax", "description": "The customer's fax number." },
+                { "name": "Email", "description": "The customer's email address." },
+                { "name": "SupportRepId", "description": "Foreign key, links to the Employee table, indicating the support representative for the customer." }
+            ]
+        },
+        {
+            "name": "Invoice",
+            "description": "This table stores information about sales invoices.",
+            "columns": [
+                { "name": "InvoiceId", "description": "Primary key, unique identifier for each invoice." },
+                { "name": "CustomerId", "description": "Foreign key, links to the Customer table." },
+                { "name": "InvoiceDate", "description": "The date the invoice was issued." },
+                { "name": "BillingAddress", "description": "The billing address for the invoice." },
+                { "name": "BillingCity", "description": "The billing city for the invoice." },
+                { "name": "BillingState", "description": "The billing state for the invoice." },
+                { "name": "BillingCountry", "description": "The billing country for the invoice." },
+                { "name": "BillingPostalCode", "description": "The billing postal code for the invoice." },
+                { "name": "Total", "description": "The total amount of the invoice." }
+            ]
+        },
+        {
+            "name": "InvoiceLine",
+            "description": "This table contains details for each item on an invoice.",
+            "columns": [
+                { "name": "InvoiceLineId", "description": "Primary key, unique identifier for each invoice line item." },
+                { "name": "InvoiceId", "description": "Foreign key, links to the Invoice table." },
+                { "name": "TrackId", "description": "Foreign key, links to the Track table, indicating the track being purchased." },
+                { "name": "UnitPrice", "description": "The unit price of the track at the time of purchase." },
+                { "name": "Quantity", "description": "The quantity of the track purchased." }
+            ]
+        },
+        {
+            "name": "Playlist",
+            "description": "This table stores information about music playlists.",
+            "columns": [
+                { "name": "PlaylistId", "description": "Primary key, unique identifier for each playlist." },
+                { "name": "Name", "description": "The name of the playlist." }
+            ]
+        },
+        {
+            "name": "PlaylistTrack",
+            "description": "This is a junction table that links tracks to playlists, representing the many-to-many relationship between them.",
+            "columns": [
+                { "name": "PlaylistId", "description": "Foreign key, links to the Playlist table." },
+                { "name": "TrackId", "description": "Foreign key, links to the Track table." }
             ]
         }
     ]
