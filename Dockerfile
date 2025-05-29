@@ -29,8 +29,6 @@ EXPOSE 8080
 # Copy the rest of the application code
 COPY . /app
 
-# Install all dependencies using uv sync
-# This creates the virtual environment and installs project dependencies
 RUN uv sync --locked
 
-CMD ["uv", "run", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uv", "run", "fastmcp", "run", "app.py", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8080"]

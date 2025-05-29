@@ -9,4 +9,4 @@ run:
 mcp-dev:
 	fastmcp dev tools/server.py
 mcp:
-	fastmcp run tools/server.py --transport sse --host 0.0.0.0 --port 8080
+	fastmcp run app.py --transport streamable-http --host 0.0.0.0 --port 8080
